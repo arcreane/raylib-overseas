@@ -13,7 +13,7 @@ int main(void)
 
     // NOTE: Textures MUST be loaded after Window initialization (OpenGL context is required)
 
-    Image image = LoadImage("ressources/startbg1.png");  // Load image data into CPU memory (RAM)
+    Image image = LoadImage("ressources/backgrounds/bgLake1.png");  // Load image data into CPU memory (RAM)
     Texture2D textureMenu = LoadTextureFromImage(image);       // Image converted to texture, GPU memory (RAM -> VRAM)
     UnloadImage(image);                                    // Unload image data from CPU memory (RAM)
     image = LoadImage("ressources/level/lvl1.png");
@@ -22,9 +22,9 @@ int main(void)
     //---------------------------------------------------------------------------------------
 
     //Player
-    Texture2D playerWalkingRight = LoadTexture("ressources/sprites/player/WalkR.v4.png");
-    Texture2D playerWalkingLeft = LoadTexture("ressources/sprites/player/WalkL.v5.png");
-    Texture2D playerIdle = LoadTexture("ressources/sprites/player/Idle.v2.png");
+    Texture2D playerWalkingRight = LoadTexture("ressources/sprites/player/WalkR.png");
+    Texture2D playerWalkingLeft = LoadTexture("ressources/sprites/player/WalkL.png");
+    Texture2D playerIdle = LoadTexture("ressources/sprites/player/Idle.png");
     Vector2 playerPosition = {200, 310};
     Vector2 playerHitBoxPosition = {240, 390};
     Vector2 playerSize = { 150, 280};
