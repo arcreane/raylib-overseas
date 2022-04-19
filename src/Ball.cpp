@@ -1,4 +1,4 @@
-/* Inclusion du header de la classe Ball*/
+/* Inclusion du header de la classe Ball */
 #include "Ball.h"
 
 /* Implémentation des méthodes de la classe Ball */
@@ -53,10 +53,10 @@ void Ball::setWin(bool p_win) {
     win = p_win;
 }
 
-/*Mise à jour de la position de la ball*/
+/* Mise à jour de la position de la balle */
 void Ball::update(double deltaTime, bool mouseDown, bool mousePressed, std::vector<Tile> tiles,std::vector<Hole> holes, Mix_Chunk* chargeSfx, Mix_Chunk* swingSfx, Mix_Chunk* holeSfx) {   
     if (win) {
-
+        /* Redéfinition de la position de la balle selon la position de la cible */
         if (getPos().x < target.x) {
             setPos(getPos().x += 0.1*deltaTime, getPos().y);
         }
@@ -77,6 +77,7 @@ void Ball::update(double deltaTime, bool mouseDown, bool mousePressed, std::vect
         return;
     }
     
+    /* Redéfinition de la position de la cible pour chaque trou slon la position de la balle */
     for (Hole h : holes) {
 
         if (getPos().x + 4 > h.getPos().x && getPos().x + 16 < h.getPos().x + 20 && getPos().y + 4 > h.getPos().y && getPos().y + 16 < h.getPos().y + 20) {
@@ -88,6 +89,7 @@ void Ball::update(double deltaTime, bool mouseDown, bool mousePressed, std::vect
 
     }
 
+    /* Redéfinition de la position de la souris, affichage de la barre de puissance et chargement de la vitesse de tir */
     if (mousePressed && canMove) {
         Mix_PlayChannel(-1, chargeSfx, 0);
         playedSwingFx = false;
