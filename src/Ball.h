@@ -14,10 +14,7 @@
 #include "Hole.h"
 #include "Tile.h"
 #include "Entity.h"
-
-
-/* Inclusion de la librairie math.h pour les calculs */
-#include "math.h"
+#include "Math.h"
 
 
 /* Création de la classe Ball héritée de la classe mère Entity */
