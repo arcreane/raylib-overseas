@@ -30,7 +30,7 @@ class Ball : public Entity {
         void setInitialMousePos(float x, float y);
         void setVelocity(float x, float y);
         void setLaunchedVelocity(float x, float y);
-        void update(double deltaTime, bool mouseDown, bool mousePressed, std::vector<Tile> tiles, std::vector<Hole> holes,Mix_Chunk* chargeSfx, Mix_Chunk* swingSfx, Mix_Chunk* holeSfx);
+        void update(double deltaTime, bool mouseDown, bool mousePressed, std::vector<Tile> tiles, Hole hole,Mix_Chunk* chargeSfx, Mix_Chunk* swingSfx, Mix_Chunk* holeSfx);
     
     private:
         /* Attributs privés de la classe */

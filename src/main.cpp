@@ -27,7 +27,7 @@ bool init()
 
 bool SDLinit = init();
 
-RenderWindow window("Overseas-Golf", 640, 480);
+RenderWindow window("Overseas-Golf", 320, 480);
 
 /* Rendu des textures */
 SDL_Texture* ballTexture = window.loadTexture("resources/gfx/ball.png");
@@ -60,8 +60,8 @@ TTF_Font* font32 = TTF_OpenFont("resources/font/font.ttf", 32);
 TTF_Font* font48 = TTF_OpenFont("resources/font/font.ttf", 48);
 TTF_Font* font24 = TTF_OpenFont("resources/font/font.ttf", 24);
 
-Ball balls[2] = {Whiteball(Vector2f(0, 0), ballTexture, pointTexture, powerMeterTexture_FG, powerMeterTexture_BG, 0), Whiteball(Vector2f(0, 0), ballTexture, pointTexture, powerMeterTexture_FG, powerMeterTexture_BG, 1)};
-std::vector<Hole> holes = {Hole(Vector2f(0, 0), holeTexture), Hole(Vector2f(0, 0), holeTexture)};
+Ball ball = Ball(Vector2f(0, 0), ballTexture, pointTexture, powerMeterTexture_FG, powerMeterTexture_BG, 0);
+Hole hole = Hole(Vector2f(0, 0), holeTexture);
 
 std::vector<Tile> loadTiles(int level)
 {
@@ -71,33 +71,24 @@ std::vector<Tile> loadTiles(int level)
 		case 0:
 			temp.push_back(Tile(Vector2f(64*3, 64*3), tileDarkTexture64));
 			temp.push_back(Tile(Vector2f(64*4, 64*3), tileDarkTexture64));
-
 			temp.push_back(Tile(Vector2f(64*0, 64*3), tileDarkTexture64));
 			temp.push_back(Tile(Vector2f(64*1, 64*3), tileDarkTexture64));
-
-			temp.push_back(Tile(Vector2f(64*3 + 64*5, 64*3), tileLightTexture64));
-			temp.push_back(Tile(Vector2f(64*4 + 64*5, 64*3), tileLightTexture64));
-
-			temp.push_back(Tile(Vector2f(64*0 + 64*5, 64*3), tileLightTexture64));
-			temp.push_back(Tile(Vector2f(64*1 + 64*5, 64*3), tileLightTexture64));
 		break;
+
 		case 1:
 			temp.push_back(Tile(Vector2f(64*2, 64*3), tileDarkTexture64));
+		break;
 
-			temp.push_back(Tile(Vector2f(64*4 + 64*5, 64*3), tileLightTexture64));
-		break;
 		case 2:
-			temp.push_back(Tile(Vector2f(32*1 + 32*10 + 16, 32*5), tileLightTexture32));
+			temp.push_back(Tile(Vector2f(32*4, 32*7), tileDarkTexture32));
 		break;
+
 		case 3:
 			temp.push_back(Tile(Vector2f(32*4, 32*7), tileDarkTexture64));
 			temp.push_back(Tile(Vector2f(32*3, 32*5), tileDarkTexture32));
 			temp.push_back(Tile(Vector2f(32*6, 32*3), tileDarkTexture32));
-
-			temp.push_back(Tile(Vector2f(32*4 + 64*5, 32*2), tileLightTexture64));
-			temp.push_back(Tile(Vector2f(32*3 + 32*10, 32*6), tileLightTexture32));
-			temp.push_back(Tile(Vector2f(32*6 + 32*10, 32*9), tileLightTexture32));
 		break;
+
 		case 4:
 			temp.push_back(Tile(Vector2f(32*3, 32*1), tileDarkTexture32));
 			temp.push_back(Tile(Vector2f(32*1, 32*3), tileDarkTexture32));
@@ -108,16 +99,6 @@ std::vector<Tile> loadTiles(int level)
 			temp.push_back(Tile(Vector2f(32*3, 32*10), tileDarkTexture32));
 			temp.push_back(Tile(Vector2f(32*5, 32*12), tileDarkTexture32));
 			temp.push_back(Tile(Vector2f(32*7, 32*10), tileDarkTexture32));
-
-			//temp.push_back(Tile(Vector2f(32*4, 32*7), tileDarkTexture64));
-			temp.push_back(Tile(Vector2f(32*8, 32*7), tileDarkTexture64));
-
-			temp.push_back(Tile(Vector2f(32*2 + 32*10, 32*2), tileLightTexture32));
-			temp.push_back(Tile(Vector2f(32*5 + 32*10, 32*11), tileLightTexture32));
-
-			temp.push_back(Tile(Vector2f(32*3 + 32*10, 32*1), tileLightTexture64));
-			temp.push_back(Tile(Vector2f(32*8 + 32*10, 32*6), tileLightTexture64));
-			temp.push_back(Tile(Vector2f(32*3 + 32*10, 32*11), tileLightTexture64));
 		break;
 	}
 	return temp;
@@ -149,80 +130,50 @@ void loadLevel(int level)
 		state = 2;
 		return;
 	}
-	balls[0].setVelocity(0, 0);
-	balls[1].setVelocity(0,0);
-    balls[0].setScale(1, 1);
-	balls[1].setScale(1, 1);
-	balls[0].setWin(false);
-	balls[1].setWin(false);
+	
+	ball.setVelocity(0, 0);
+	ball.setScale(1,1);
+	ball.setWin(false);
 
 	tiles = loadTiles(level);
 
 	switch (level)
 	{
 		case 0:
-			balls[0].setPos(24 + 32*4, 24 + 32*11);
-			balls[1].setPos(24 + 32*4 + 32*10, 24 + 32*11);
-
-			holes.at(0).setPos(24 + 32*4, 22 + 32*2);
-			holes.at(1).setPos(24 + 32*4 + 32*10, 22 + 32*2);
+			ball.setPos(24 + 32*4, 24 + 32*11);
+			hole.setPos(24 + 32*4, 22 + 32*2);
 		break;
 		case 1:
-			balls[0].setPos(24 + 32*4, 24 + 32*11);
-			balls[1].setPos(24 + 32*4 + 32*10, 24 + 32*11);
-
-			holes.at(0).setPos(24 + 32*4, 22 + 32*2);
-			holes.at(1).setPos(24 + 32*4 + 32*10, 22 + 32*2);
+			ball.setPos(24 + 32*4, 24 + 32*11);
+			hole.setPos(24 + 32*4, 22 + 32*2);
 		break;
 		case 2:
-			balls[0].setPos(8 + 32*7, 8 + 32*10);
-			balls[1].setPos(8 + 32*7 + 32*10, 8 + 32*10);
-
-			holes.at(0).setPos(8 + 32*2, 6 + 32*5);
-			holes.at(1).setPos(8 + 32*4 + 32*10, 6 + 32*3);
+			ball.setPos(8 + 32*7, 8 + 32*10);
+			hole.setPos(8 + 32*2, 6 + 32*5);
 		break;
 		case 3:
-			balls[0].setPos(24 + 32*4, 24 + 32*5);
-			balls[1].setPos(24 + 32*4 + 32*10, 24 + 32*4);
-
-			holes.at(0).setPos(24 + 32*4, 22 + 32*1);
-			holes.at(1).setPos(24 + 32*4 + 32*10, 22 + 32*11);
+			ball.setPos(24 + 32*4, 24 + 32*5);
+			hole.setPos(24 + 32*4, 22 + 32*1);
 		break;
 		case 4:	
-			balls[0].setPos(24 + 32*2, 24 + 32*12);
-			balls[1].setPos(24 + 32*0 + 32*10, 24 + 32*5);
-
-			holes.at(0).setPos(24 + 32*1, 22 + 32*1);
-			holes.at(1).setPos(24 + 32*0 + 32*10, 22 + 32*7);
+			ball.setPos(24 + 32*2, 24 + 32*12);
+			hole.setPos(24 + 32*1, 22 + 32*1);
 		break;
 	}
 }
 
 const char* getStrokeText()
 {
-	int biggestStroke = 0;
-	if (balls[1].getStrokes() > balls[0].getStrokes())
-	{
-		biggestStroke = balls[1].getStrokes();
-	}
-	else
-	{
-		biggestStroke = balls[0].getStrokes();
-	}
-	std::string s = std::to_string(biggestStroke);
-	s = "STROKES: " + s;
+	int stroke = ball.getStrokes();
+	std::string s = std::to_string(stroke);
+	s = "COUP: " + s;
 	return s.c_str();
 }
 
-const char* getLevelText(int side)
+const char* getLevelText()
 {
-	int tempLevel = (level + 1)*2 - 1;
-	if (side == 1)
-	{
-		tempLevel++;
-	}
-	std::string s = std::to_string(tempLevel);
-	s = "HOLE: " + s;
+	std::string s = std::to_string(level);
+	s = "TROU: " + s;
 	return s.c_str();
 }
 
@@ -260,11 +211,8 @@ void update()
 
 	if (state == 1)
 	{
-		for (Ball& b : balls)
-		{
-			b.update(deltaTime, mouseDown, mousePressed, tiles, holes, chargeSfx, swingSfx, holeSfx);
-		}
-		if (balls[0].getScale().x < -1 && balls[1].getScale().x < -1)
+		ball.update(deltaTime, mouseDown, mousePressed, tiles, hole, chargeSfx, swingSfx, holeSfx);
+		if (ball.getScale().x < -1)
  		{
         	level++;
 			loadLevel(level);
@@ -276,48 +224,37 @@ void graphics()
 {
 	window.clear();
 	window.render(0, 0, bgTexture);
-	for (Hole& h : holes)
+	window.render(hole);
+	if (!ball.isWin())
 	{
-		window.render(h);
+		window.render(ball.getPos().x, ball.getPos().y + 4, ballShadowTexture);
 	}
-	for (Ball& b : balls)
+	for (Entity& e : ball.getPoints())
 	{
-		if (!b.isWin())
-		{
-			window.render(b.getPos().x, b.getPos().y + 4, ballShadowTexture);
-		}
-		for (Entity& e : b.getPoints())
-		{
-			window.render(e);
-		}
-		window.render(b);
+		window.render(e);
 	}
+	window.render(ball);
+
 	for (Tile& t : tiles)
 	{ 
 		window.render(t);
 	}
-	for (Ball& b : balls)
+
+	for (Entity& e : ball.getPowerBar())
 	{
-		for (Entity& e : b.getPowerBar())
-		{
-			window.render(e);
-		}
-		window.render(b.getPowerBar().at(0).getPos().x, b.getPowerBar().at(0).getPos().y, powerMeterTexture_overlay);
-		
+		window.render(e);
 	}
+	window.render(ball.getPowerBar().at(0).getPos().x, ball.getPowerBar().at(0).getPos().y, powerMeterTexture_overlay);
+		
 	if (state != 2)
 	{
 		window.render(640/4 - 132/2, 480 - 32, levelTextBgTexture);
-		window.renderCenter(-160, 240 - 16 + 3, getLevelText(0), font24, black);
-		window.renderCenter(-160, 240 - 16, getLevelText(0), font24, white);
+		window.renderCenter(-160, 240 - 16 + 3, getLevelText(), font24, black);
+		window.renderCenter(-160, 240 - 16, getLevelText(), font24, white);
 
-		window.render(640/2 + 640/4 - 132/2, 480 - 32, levelTextBgTexture);
-		window.renderCenter(160, 240 - 16 + 3, getLevelText(1), font24, black);
-		window.renderCenter(160, 240 - 16, getLevelText(1), font24, white);
-
-		window.render(640/2 - 196/2, 0, uiBgTexture);
-		window.renderCenter(0, -240 + 16 + 3, getStrokeText(), font24, black);
-		window.renderCenter(0, -240 + 16, getStrokeText(), font24, white);
+		window.render(320/2 - 98, 0, uiBgTexture);
+		window.renderCenter(-160, -240 + 16 + 3, getStrokeText(), font24, black);
+		window.renderCenter(-160, -240 + 16, getStrokeText(), font24, white);
 	}
 	else
 	{
