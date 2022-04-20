@@ -1,6 +1,11 @@
 /* Inclusion du header de la classe Ball */
 #include "Ball.h"
 
+/**
+ * TODO: Generalize the ball class according to UML and create subclasses from this generalized class
+ * TODO: Colored balls subsclasss are expected to be implented in another files (.h /.cpp)
+ */
+
 /* Implémentation des méthodes de la classe Ball */
 Ball::Ball(Vector2f p_pos, SDL_Texture* p_tex, SDL_Texture* p_pointTex, SDL_Texture* p_powerMTexFG, SDL_Texture* p_powerMTexBG, int p_index) : Entity(p_pos, p_tex) {
     index = p_index;
@@ -10,27 +15,27 @@ Ball::Ball(Vector2f p_pos, SDL_Texture* p_tex, SDL_Texture* p_pointTex, SDL_Text
 }
 
 /* Ascesseur (getter/setter) des attributs privés de la classe */
-Vector2f& getVelocity() {
-		return velocity;
+Vector2f& Ball::getVelocity() {
+	return velocity;
 }
 
-Vector2f& getInitialMousePos() {
+Vector2f& Ball::getInitialMousePos() {
     return initialMousePos;
 }
 
-std::vector<Entity> getPoints() {
+std::vector<Entity> Ball::getPoints() {
     return points;
 }
 
-std::vector<Entity> getPowerBar() {
+std::vector<Entity> Ball::getPowerBar() {
     return powerBar;
 }
 
-int getStrokes() {
+int Ball::getStrokes() {
     return strokes;
 }
 
-bool isWin() {
+bool Ball::isWin() {
     return win;
 }
 
@@ -54,7 +59,7 @@ void Ball::setWin(bool p_win) {
 }
 
 /* Mise à jour de la position de la balle */
-void Ball::update(double deltaTime, bool mouseDown, bool mousePressed, std::vector<Tile> tiles,std::vector<Hole> holes, Mix_Chunk* chargeSfx, Mix_Chunk* swingSfx, Mix_Chunk* holeSfx) {   
+void Ball::update(double deltaTime, bool mouseDown, bool mousePressed, std::vector<Tile> tiles, Hole hole, Mix_Chunk* chargeSfx, Mix_Chunk* swingSfx, Mix_Chunk* holeSfx) {   
     if (win) {
         /* Redéfinition de la position de la balle selon la position de la cible */
         if (getPos().x < target.x) {
@@ -77,16 +82,12 @@ void Ball::update(double deltaTime, bool mouseDown, bool mousePressed, std::vect
         return;
     }
     
-    /* Redéfinition de la position de la cible pour chaque trou slon la position de la balle */
-    for (Hole h : holes) {
-
-        if (getPos().x + 4 > h.getPos().x && getPos().x + 16 < h.getPos().x + 20 && getPos().y + 4 > h.getPos().y && getPos().y + 16 < h.getPos().y + 20) {
-            Mix_PlayChannel(-1, holeSfx, 0);
-            setWin(true);
-            target.x = h.getPos().x ;
-            target.y = h.getPos().y + 3;
-        }
-
+    /* Redéfinition de la position de la cible pour chaque trou selon la position de la balle */
+    if (getPos().x + 4 > hole.getPos().x && getPos().x + 16 < hole.getPos().x + 20 && getPos().y + 4 > hole.getPos().y && getPos().y + 16 < hole.getPos().y + 20) {
+        Mix_PlayChannel(-1, holeSfx, 0);
+        setWin(true);
+        target.x = hole.getPos().x ;
+        target.y = hole.getPos().y + 3;
     }
 
     /* Redéfinition de la position de la souris, affichage de la barre de puissance et chargement de la vitesse de tir */
