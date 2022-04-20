@@ -1,12 +1,6 @@
 /* Inclusion unique du fichier dans la compilation du projet */
 #pragma once
 
-/* Inclusion de la librairie externe SDL2 */
-#include <SDL2/SDL.h>
-#include <SDL2/SDL_image.h>
-#include <SDL2/SDL_mixer.h>
-#include <SDL2/SDL_ttf.h>
-
 /* Inclusion de la classe Vector pour la STL*/
 #include <vector>
 
@@ -14,8 +8,10 @@
 #include "Hole.h"
 #include "Tile.h"
 #include "Entity.h"
-#include "Math.h"
 
+/* Inclusion de la librairie externe SDL2 */
+#include <SDL2/SDL_mixer.h>
+#include <SDL2/SDL_ttf.h>
 
 /* Création de la classe Ball héritée de la classe mère Entity */
 class Ball : public Entity {
