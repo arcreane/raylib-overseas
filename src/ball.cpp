@@ -15,27 +15,27 @@ Ball::Ball(Vector2f p_pos, SDL_Texture* p_tex, SDL_Texture* p_pointTex, SDL_Text
 }
 
 /* Ascesseur (getter/setter) des attributs privés de la classe */
-Vector2f& getVelocity() {
-		return velocity;
+Vector2f& Ball::getVelocity() {
+	return velocity;
 }
 
-Vector2f& getInitialMousePos() {
+Vector2f& Ball::getInitialMousePos() {
     return initialMousePos;
 }
 
-std::vector<Entity> getPoints() {
+std::vector<Entity> Ball::getPoints() {
     return points;
 }
 
-std::vector<Entity> getPowerBar() {
+std::vector<Entity> Ball::getPowerBar() {
     return powerBar;
 }
 
-int getStrokes() {
+int Ball::getStrokes() {
     return strokes;
 }
 
-bool isWin() {
+bool Ball::isWin() {
     return win;
 }
 
