@@ -5,6 +5,7 @@
 #include <SDL2/SDL_mixer.h>
 #include <iostream>
 #include <vector>
+#include <fstream>
 
 /* Headers dezs différentes classes */
 #include "RenderWindow.h"
@@ -128,6 +129,9 @@ void loadLevel(int level)
 	if (level > 4)
 	{
 		state = 2;
+		std::ofstream ofs ("scores.txt", std::ios::app);
+		ofs << __DATE__ << " - " << __TIME__ << " : " << ball.getStrokes() << " coups.\n";
+		ofs.close();
 		return;
 	}
 	
