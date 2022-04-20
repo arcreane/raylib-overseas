@@ -9,7 +9,7 @@
 /* Headers dezs différentes classes */
 #include "RenderWindow.h"
 #include "Entity.h"
-#include "Ball.h"	
+#include "Whiteball.h"	
 #include "Tile.h"
 #include "Hole.h"
 
@@ -60,7 +60,7 @@ TTF_Font* font32 = TTF_OpenFont("resources/font/font.ttf", 32);
 TTF_Font* font48 = TTF_OpenFont("resources/font/font.ttf", 48);
 TTF_Font* font24 = TTF_OpenFont("resources/font/font.ttf", 24);
 
-Ball balls[2] = {Ball(Vector2f(0, 0), ballTexture, pointTexture, powerMeterTexture_FG, powerMeterTexture_BG, 0), Ball(Vector2f(0, 0), ballTexture, pointTexture, powerMeterTexture_FG, powerMeterTexture_BG, 1)};
+Ball balls[2] = {Whiteball(Vector2f(0, 0), ballTexture, pointTexture, powerMeterTexture_FG, powerMeterTexture_BG, 0), Whiteball(Vector2f(0, 0), ballTexture, pointTexture, powerMeterTexture_FG, powerMeterTexture_BG, 1)};
 std::vector<Hole> holes = {Hole(Vector2f(0, 0), holeTexture), Hole(Vector2f(0, 0), holeTexture)};
 
 std::vector<Tile> loadTiles(int level)

@@ -47,7 +47,7 @@ class Ball : public Entity {
         int dirX = 1;
         int dirY = 1;
         bool win = false;
-        float friction = 0.001;
+        float friction;
         std::vector<Entity> points;
         std::vector<Entity> powerBar;
 };
