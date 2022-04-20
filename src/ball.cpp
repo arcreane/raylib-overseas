@@ -1,6 +1,11 @@
 /* Inclusion du header de la classe Ball */
 #include "Ball.h"
 
+/**
+ * TODO: Generalize the ball class according to UML and create subclasses from this generalized class
+ * TODO: Colored balls subsclasss are expected to be implented in another files (.h /.cpp)
+ */
+
 /* Implémentation des méthodes de la classe Ball */
 Ball::Ball(Vector2f p_pos, SDL_Texture* p_tex, SDL_Texture* p_pointTex, SDL_Texture* p_powerMTexFG, SDL_Texture* p_powerMTexBG, int p_index) : Entity(p_pos, p_tex) {
     index = p_index;
