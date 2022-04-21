@@ -6,11 +6,14 @@
 #include <iostream>
 #include <vector>
 #include <fstream>
+#include <cstdlib>
 
 /* Headers dezs différentes classes */
 #include "RenderWindow.h"
 #include "Entity.h"
-#include "Ball.h"	
+#include "Whiteball.h"	
+#include "Redball.h"	
+#include "Blueball.h"	
 #include "Tile.h"
 #include "Hole.h"
 
@@ -61,8 +64,22 @@ TTF_Font* font32 = TTF_OpenFont("resources/font/font.ttf", 32);
 TTF_Font* font48 = TTF_OpenFont("resources/font/font.ttf", 48);
 TTF_Font* font24 = TTF_OpenFont("resources/font/font.ttf", 24);
 
-Ball ball = Ball(Vector2f(0, 0), ballTexture, pointTexture, powerMeterTexture_FG, powerMeterTexture_BG, 0);
+/* 
+--- Définition de  la balle utilisée ---
+
+	Whiteball = balle classique
+	Redball = balle qui s'écrase sur les murs
+ 	Blueball = balle qui glisse plus longtemps
+*/
+
+//Whiteball ball = Whiteball(Vector2f(0, 0), ballTexture, pointTexture, powerMeterTexture_FG, powerMeterTexture_BG, 0);
+//Redball ball = Redball(Vector2f(0, 0), ballTexture, pointTexture, powerMeterTexture_FG, powerMeterTexture_BG, 0);
+Blueball ball = Blueball(Vector2f(0, 0), ballTexture, pointTexture, powerMeterTexture_FG, powerMeterTexture_BG, 0);
+
 Hole hole = Hole(Vector2f(0, 0), holeTexture);
+
+//Ball ball = static_cast<Ball>(balla);
+
 
 std::vector<Tile> loadTiles(int level)
 {
@@ -176,7 +193,7 @@ const char* getStrokeText()
 
 const char* getLevelText()
 {
-	std::string s = std::to_string(level);
+	std::string s = std::to_string(level+1);
 	s = "TROU: " + s;
 	return s.c_str();
 }

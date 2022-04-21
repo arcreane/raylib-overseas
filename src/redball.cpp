@@ -1,65 +1,14 @@
-/* Inclusion du header de la classe Ball */
-#include "Ball.h"
+#include "Redball.h"
 
-/**
- * TODO: Generalize the ball class according to UML and create subclasses from this generalized class
- * TODO: Colored balls subsclasss are expected to be implented in another files (.h /.cpp)
- */
-
-/* Implémentation des méthodes de la classe Ball */
-Ball::Ball(Vector2f p_pos, SDL_Texture* p_tex, SDL_Texture* p_pointTex, SDL_Texture* p_powerMTexFG, SDL_Texture* p_powerMTexBG, int p_index) : Entity(p_pos, p_tex) {
+Redball::Redball(Vector2f p_pos, SDL_Texture* p_tex, SDL_Texture* p_pointTex, SDL_Texture* p_powerMTexFG, SDL_Texture* p_powerMTexBG, int p_index) : Ball::Ball(p_pos, p_tex, p_pointTex, p_powerMTexFG, p_powerMTexBG, p_index) {
     index = p_index;
     points.push_back(Entity(Vector2f(-64, -64), p_pointTex));
     powerBar.push_back(Entity(Vector2f(-64, -64), p_powerMTexBG));
     powerBar.push_back(Entity(Vector2f(-64, -64), p_powerMTexFG));
 }
 
-/* Ascesseur (getter/setter) des attributs privés de la classe */
-Vector2f& Ball::getVelocity() {
-	return velocity;
-}
-
-Vector2f& Ball::getInitialMousePos() {
-    return initialMousePos;
-}
-
-std::vector<Entity> Ball::getPoints() {
-    return points;
-}
-
-std::vector<Entity> Ball::getPowerBar() {
-    return powerBar;
-}
-
-int Ball::getStrokes() {
-    return strokes;
-}
-
-bool Ball::isWin() {
-    return win;
-}
-
-void Ball::setVelocity(float x, float y) {
-    velocity.x = x;
-    velocity.y = y;
-}
-
-void Ball::setLaunchedVelocity(float x, float y) {
-    launchedVelocity.x = x;
-    launchedVelocity.y = y;
-}
-
-void Ball::setInitialMousePos(float x, float y) {
-    initialMousePos.x = x;
-    initialMousePos.y = y;
-}
-
-void Ball::setWin(bool p_win) {
-    win = p_win;
-}
-
 /* Mise à jour de la position de la balle */
-void Ball::update(double deltaTime, bool mouseDown, bool mousePressed, std::vector<Tile> tiles, Hole hole, Mix_Chunk* chargeSfx, Mix_Chunk* swingSfx, Mix_Chunk* holeSfx) {   
+void Redball::update(double deltaTime, bool mouseDown, bool mousePressed, std::vector<Tile> tiles, Hole hole, Mix_Chunk* chargeSfx, Mix_Chunk* swingSfx, Mix_Chunk* holeSfx) {   
     if (win) {
         /* Redéfinition de la position de la balle selon la position de la cible */
         if (getPos().x < target.x) {
@@ -183,20 +132,20 @@ void Ball::update(double deltaTime, bool mouseDown, bool mousePressed, std::vect
             setVelocity(getVelocity().x, abs(getVelocity().y));
             dirY = 1;
         }
-
+        //La Redball s'écrase sur les obstacles
         for (Tile& t : tiles) { 
 		    float newX = getPos().x + getVelocity().x*deltaTime;
             float newY = getPos().y;
             if (newX + 16 > t.getPos().x && newX < t.getPos().x + t.getCurrentFrame().w && newY + 16 > t.getPos().y && newY < t.getPos().y + t.getCurrentFrame().h - 3) {
                 setVelocity(getVelocity().x*-1, getVelocity().y);
-                dirX *= -1;
+                dirX *= -0.3;
             }
 
             newX = getPos().x;
             newY = getPos().y + getVelocity().y*deltaTime;
             if (newX + 16 > t.getPos().x && newX < t.getPos().x + t.getCurrentFrame().w && newY + 16 > t.getPos().y && newY < t.getPos().y + t.getCurrentFrame().h - 3) {
                 setVelocity(getVelocity().x, getVelocity().y*-1);
-                dirY *= -1;
+                dirY *= -0.3;
             }
 	    }
     }
