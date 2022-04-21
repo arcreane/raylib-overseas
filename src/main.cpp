@@ -34,7 +34,9 @@ bool SDLinit = init();
 RenderWindow window("Overseas-Golf", 320, 480);
 
 /* Rendu des textures */
-SDL_Texture* ballTexture = window.loadTexture("resources/gfx/ball.png");
+SDL_Texture* ballTextureWhite = window.loadTexture("resources/gfx/ball.png");
+SDL_Texture* ballTextureBlue = window.loadTexture("resources/gfx/blueball.png");
+SDL_Texture* ballTextureRed = window.loadTexture("resources/gfx/redball.png");
 SDL_Texture* holeTexture = window.loadTexture("resources/gfx/hole.png");
 SDL_Texture* pointTexture = window.loadTexture("resources/gfx/point.png");
 SDL_Texture* tileDarkTexture32 = window.loadTexture("resources/gfx/tile32_dark.png");
@@ -48,7 +50,7 @@ SDL_Texture* levelTextBgTexture = window.loadTexture("resources/gfx/levelText_bg
 SDL_Texture* powerMeterTexture_FG = window.loadTexture("resources/gfx/powermeter_fg.png");
 SDL_Texture* powerMeterTexture_BG = window.loadTexture("resources/gfx/powermeter_bg.png");
 SDL_Texture* powerMeterTexture_overlay = window.loadTexture("resources/gfx/powermeter_overlay.png");
-SDL_Texture* logoTexture = window.loadTexture("resources/gfx/logo.png");
+
 SDL_Texture* click2start = window.loadTexture("resources/gfx/click2start.png");
 SDL_Texture* endscreenOverlayTexture = window.loadTexture("resources/gfx/end.png");
 SDL_Texture* splashBgTexture = window.loadTexture("resources/gfx/splashbg.png");
@@ -72,14 +74,11 @@ TTF_Font* font24 = TTF_OpenFont("resources/font/font.ttf", 24);
  	Blueball = balle qui glisse plus longtemps
 */
 
-//Whiteball ball = Whiteball(Vector2f(0, 0), ballTexture, pointTexture, powerMeterTexture_FG, powerMeterTexture_BG, 0);
-//Redball ball = Redball(Vector2f(0, 0), ballTexture, pointTexture, powerMeterTexture_FG, powerMeterTexture_BG, 0);
-Blueball ball = Blueball(Vector2f(0, 0), ballTexture, pointTexture, powerMeterTexture_FG, powerMeterTexture_BG, 0);
+Whiteball ball = Whiteball(Vector2f(0, 0), ballTextureWhite, pointTexture, powerMeterTexture_FG, powerMeterTexture_BG, 0);
+//Redball ball = Redball(Vector2f(0, 0), ballTextureRed, pointTexture, powerMeterTexture_FG, powerMeterTexture_BG, 0);
+//Blueball ball = Blueball(Vector2f(0, 0), ballTextureBlue, pointTexture, powerMeterTexture_FG, powerMeterTexture_BG, 0);
 
 Hole hole = Hole(Vector2f(0, 0), holeTexture);
-
-//Ball ball = static_cast<Ball>(balla);
-
 
 std::vector<Tile> loadTiles(int level)
 {
@@ -311,8 +310,8 @@ void titleScreen()
 		window.clear();
 		window.render(0, 0, bgTexture);
 		window.render(0, 0, splashBgTexture);
-		window.renderCenter(0, 0 + 3, "POLYMARS", font32, black);
-		window.renderCenter(0, 0, "POLYMARS", font32, white);
+		window.renderCenter(-150, 0 + 3, "OVERSEAS.", font32, black);
+		window.renderCenter(-150, 0, "OVERSEAS.", font32, white);
 		window.display();
 	}
 	else
@@ -345,10 +344,10 @@ void titleScreen()
 		}
 		window.clear();
 		window.render(0, 0, bgTexture);
-		window.render(320 - 160, 240 - 100 - 50 + 4*SDL_sin(SDL_GetTicks()*(3.14/1500)), logoTexture);
+		//window.render(320 - 160, 240 - 100 - 50 + 4*SDL_sin(SDL_GetTicks()*(3.14/1500)), logoTexture);
 		window.render(0, 0, click2start);
-		window.renderCenter(0, 240 - 48 + 3 - 16*5, "LEFT CLICK TO START", font32, black);
-		window.renderCenter(0, 240 - 48 - 16*5, "LEFT CLICK TO START", font32, white);
+		window.renderCenter(-150, 240 - 48 + 3 - 16*5, "LEFT CLICK TO START", font24, black);
+		window.renderCenter(-150, 240 - 48 - 16*5, "LEFT CLICK TO START", font24, white);
 		window.display();
 	}
 }
