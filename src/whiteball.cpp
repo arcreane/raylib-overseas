@@ -1,8 +1,6 @@
 #include "Whiteball.h"
-#include "Ball.h"
-#include "Math.h"
 
-Whiteball::Whiteball(Vector2f p_pos, SDL_Texture* p_tex, SDL_Texture* p_pointTex, SDL_Texture* p_powerMTexFG, SDL_Texture* p_powerMTexBG, int p_index) : Ball(p_pos, p_tex, p_pointTex, p_powerMTexFG, p_powerMTexBG, p_index) {
+Whiteball::Whiteball(Vector2f p_pos, SDL_Texture* p_tex, SDL_Texture* p_pointTex, SDL_Texture* p_powerMTexFG, SDL_Texture* p_powerMTexBG, int p_index) : Ball::Ball(p_pos, p_tex, p_pointTex, p_powerMTexFG, p_powerMTexBG, p_index) {
     index = p_index;
     points.push_back(Entity(Vector2f(-64, -64), p_pointTex));
     powerBar.push_back(Entity(Vector2f(-64, -64), p_powerMTexBG));
@@ -10,7 +8,7 @@ Whiteball::Whiteball(Vector2f p_pos, SDL_Texture* p_tex, SDL_Texture* p_pointTex
 }
 
 /* Mise à jour de la position de la balle */
-void Whiteball::update(double deltaTime, bool mouseDown, bool mousePressed, std::vector<Tile> tiles,std::vector<Hole> holes, Mix_Chunk* chargeSfx, Mix_Chunk* swingSfx, Mix_Chunk* holeSfx) {   
+void Whiteball::update(double deltaTime, bool mouseDown, bool mousePressed, std::vector<Tile> tiles, Hole hole, Mix_Chunk* chargeSfx, Mix_Chunk* swingSfx, Mix_Chunk* holeSfx) {   
     if (win) {
         /* Redéfinition de la position de la balle selon la position de la cible */
         if (getPos().x < target.x) {
@@ -33,16 +31,12 @@ void Whiteball::update(double deltaTime, bool mouseDown, bool mousePressed, std:
         return;
     }
     
-    /* Redéfinition de la position de la cible pour chaque trou slon la position de la balle */
-    for (Hole h : holes) {
-
-        if (getPos().x + 4 > h.getPos().x && getPos().x + 16 < h.getPos().x + 20 && getPos().y + 4 > h.getPos().y && getPos().y + 16 < h.getPos().y + 20) {
-            Mix_PlayChannel(-1, holeSfx, 0);
-            setWin(true);
-            target.x = h.getPos().x ;
-            target.y = h.getPos().y + 3;
-        }
-
+    /* Redéfinition de la position de la cible pour chaque trou selon la position de la balle */
+    if (getPos().x + 4 > hole.getPos().x && getPos().x + 16 < hole.getPos().x + 20 && getPos().y + 4 > hole.getPos().y && getPos().y + 16 < hole.getPos().y + 20) {
+        Mix_PlayChannel(-1, holeSfx, 0);
+        setWin(true);
+        target.x = hole.getPos().x ;
+        target.y = hole.getPos().y + 3;
     }
 
     /* Redéfinition de la position de la souris, affichage de la barre de puissance et chargement de la vitesse de tir */

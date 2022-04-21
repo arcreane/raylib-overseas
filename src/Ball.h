@@ -30,9 +30,9 @@ class Ball : public Entity {
         void setInitialMousePos(float x, float y);
         void setVelocity(float x, float y);
         void setLaunchedVelocity(float x, float y);
-        void update(double deltaTime, bool mouseDown, bool mousePressed, std::vector<Tile> tiles, Hole hole,Mix_Chunk* chargeSfx, Mix_Chunk* swingSfx, Mix_Chunk* holeSfx);
+        void update(double deltaTime, bool mouseDown, bool mousePressed, std::vector<Tile> tiles, Hole hole, Mix_Chunk* chargeSfx, Mix_Chunk* swingSfx, Mix_Chunk* holeSfx);
     
-    private:
+    protected:
         /* Attributs privés de la classe */
         Vector2f velocity;
         Vector2f target;
@@ -40,14 +40,14 @@ class Ball : public Entity {
         float velocity1D;
         float launchedVelocity1D;
         Vector2f initialMousePos;
-        bool canMove = true;
-        bool playedSwingFx = true;
+        bool canMove;
+        bool playedSwingFx;
         int index;
-        int strokes = 0;
-        int dirX = 1;
-        int dirY = 1;
-        bool win = false;
-        float friction;
+        int strokes;
+        int dirX;
+        int dirY;
+        bool win;
+        float friction = 0.001;
         std::vector<Entity> points;
         std::vector<Entity> powerBar;
 };
