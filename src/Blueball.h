@@ -1,5 +1,6 @@
 #include "Ball.h"
 
+/* sous-classe de ball dont le coef de friction a été redéfini (moins élevé que les autres balls) */
 class Blueball : public Ball {
     public:
         Blueball(Vector2f p_pos, SDL_Texture* p_tex, SDL_Texture* p_pointTex, SDL_Texture* p_powerMTexFG, SDL_Texture* p_powerMTexBG, int p_index);
