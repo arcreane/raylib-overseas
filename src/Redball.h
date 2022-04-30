@@ -1,5 +1,6 @@
 #include "Ball.h"
 
+/* sous-classe de ball dont certains arttibuts de la méthode update ont été changés (plus "aimanté" aux murs) */
 class Redball : public Ball {
     public:
         Redball(Vector2f p_pos, SDL_Texture* p_tex, SDL_Texture* p_pointTex, SDL_Texture* p_powerMTexFG, SDL_Texture* p_powerMTexBG, int p_index);
