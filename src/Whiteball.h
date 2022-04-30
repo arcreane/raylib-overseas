@@ -1,5 +1,6 @@
 #include "Ball.h"
 
+/* sous-classe de ball qui est la ball de base (attributs normaux) */
 class Whiteball : public Ball {
     public:
         Whiteball(Vector2f p_pos, SDL_Texture* p_tex, SDL_Texture* p_pointTex, SDL_Texture* p_powerMTexFG, SDL_Texture* p_powerMTexBG, int p_index);
