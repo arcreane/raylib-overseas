@@ -17,6 +17,7 @@
 #include "Tile.h"
 #include "Hole.h"
 
+// capturer les éventuelles erreurs de démarrage / chargement de textures
 bool init()
 {
 	if (SDL_Init(SDL_INIT_VIDEO) > 0)
@@ -31,6 +32,7 @@ bool init()
 
 bool SDLinit = init();
 
+// initialisation de la fenêtre avec sa taille
 RenderWindow window("Overseas-Golf", 320, 480);
 
 /* Rendu des textures */
@@ -89,6 +91,7 @@ Whiteball ball = Whiteball(Vector2f(0, 0), ballTextureWhite, pointTexture, power
 
 Hole hole = Hole(Vector2f(0, 0), holeTexture);
 
+// design des différents niveaux
 std::vector<Tile> loadTiles(int level)
 {
 	std::vector<Tile> temp = {};
@@ -162,6 +165,7 @@ Uint64 currentTick = SDL_GetPerformanceCounter();
 Uint64 lastTick = 0;
 double deltaTime = 0;
 
+// chargement des niveaux notamment avec les positions de la balle et du trou
 void loadLevel(int level)
 {
 	if (level > 4)
@@ -204,6 +208,7 @@ void loadLevel(int level)
 	}
 }
 
+// fonction de récupération du nombre de coups joués
 const char* getStrokeText()
 {
 	int stroke = ball.getStrokes();
@@ -212,6 +217,7 @@ const char* getStrokeText()
 	return s.c_str();
 }
 
+// fonction de récupération du niveau actuel
 const char* getLevelText()
 {
 	std::string s = std::to_string(level+1);
