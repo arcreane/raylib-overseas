@@ -99,24 +99,24 @@ std::vector<Tile> loadTiles(int level)
 	switch(level) 
 	{
 		case 0:
-			temp.push_back(Tile(Vector2f(64*3, 64*3), tileDarkTexture64));
-			temp.push_back(Tile(Vector2f(64*4, 64*3), tileDarkTexture64));
-			temp.push_back(Tile(Vector2f(64*0, 64*3), tileDarkTexture64));
-			temp.push_back(Tile(Vector2f(64*1, 64*3), tileDarkTexture64));
+			temp.push_back(Tile(Vector2f(64*3, 64*3), tileFlakeTexture64));
+			temp.push_back(Tile(Vector2f(64*4, 64*3), tileSnowmanTexture64));
+			temp.push_back(Tile(Vector2f(64*0, 64*3), tileFlakeTexture64));
+			temp.push_back(Tile(Vector2f(64*1, 64*3), tileSnowmanTexture64));
 		break;
 
 		case 1:
-			temp.push_back(Tile(Vector2f(64*2, 64*3), tileDarkTexture64));
+			temp.push_back(Tile(Vector2f(64*2, 64*3), tileSnowmanTexture64));
 		break;
 
 		case 2:
-			temp.push_back(Tile(Vector2f(32*4, 32*7), tileDarkTexture32));
+			temp.push_back(Tile(Vector2f(32*4, 32*7), tileTreeTexture32));
 		break;
 
 		case 3:
-			temp.push_back(Tile(Vector2f(32*4, 32*7), tileDarkTexture64));
-			temp.push_back(Tile(Vector2f(32*3, 32*5), tileDarkTexture32));
-			temp.push_back(Tile(Vector2f(32*6, 32*3), tileDarkTexture32));
+			temp.push_back(Tile(Vector2f(32*4, 32*7), tileFlakeTexture64));
+			temp.push_back(Tile(Vector2f(32*3, 32*5), tileTreeTexture32));
+			temp.push_back(Tile(Vector2f(32*6, 32*3), tileTreeTexture32));
 		break;
 
 		case 4:
@@ -272,14 +272,8 @@ void graphics()
 {
 	window.clear();
     // FX différent pour le niveau final
-	if (level==4)
-	{
-		window.render(0, 0, bgTextureSnow);
-	}
-	else
-	{
-		window.render(0, 0, bgTexture);
-	}
+	
+	window.render(0, 0, bgTextureSnow);
 	window.render(hole);
 	if (!ball.isWin())
 	{
@@ -344,7 +338,7 @@ void titleScreen()
 		}
 
 		window.clear();
-		window.render(0, 0, bgTexture);
+		window.render(0, 0, bgTextureSnow;
 		window.render(-150, 0, splashBgTexture);
 		window.renderCenter(-150, 0 + 3, "OVERSEAS.", font32, black);
 		window.renderCenter(-150, 0, "OVERSEAS.", font32, white);
@@ -379,7 +373,7 @@ void titleScreen()
 			}
 		}
 		window.clear();
-		window.render(0, 0, bgTexture);
+		window.render(0, 0, bgTextureSnow);
 		//window.render(320 - 160, 240 - 100 - 50 + 4*SDL_sin(SDL_GetTicks()*(3.14/1500)), logoTexture);
 		window.render(-150, 0, click2start);
 		window.renderCenter(-150, 240 - 48 + 3 - 16*5, "LEFT CLICK TO START", font24, black);
