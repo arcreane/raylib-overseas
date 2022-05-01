@@ -309,10 +309,10 @@ void graphics()
 	else
 	{
 		window.render(0, 0, endscreenOverlayTexture);
-		window.renderCenter(0, 3 - 32, "YOU COMPLETED THE COURSE!", font48, black);
-		window.renderCenter(0, -32, "YOU COMPLETED THE COURSE!", font48, white);
-		window.renderCenter(0, 3 + 32, getStrokeText(), font32, black);
-		window.renderCenter(0, 32, getStrokeText(), font32, white);
+		window.renderCenter(-150, 3 - 32, "YOU COMPLETED THE COURSE!", font24, black);
+		window.renderCenter(-150, -32, "YOU COMPLETED THE COURSE!", font24, white);
+		window.renderCenter(-150, 3 + 32, getStrokeText(), font32, black);
+		window.renderCenter(-150, 32, getStrokeText(), font32, white);
 	}
 	window.display();
 }
