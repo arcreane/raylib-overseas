@@ -339,7 +339,7 @@ void titleScreen()
 
 		window.clear();
 		window.render(0, 0, bgTexture);
-		window.render(0, 0, splashBgTexture);
+		window.render(-150, 0, splashBgTexture);
 		window.renderCenter(-150, 0 + 3, "OVERSEAS.", font32, black);
 		window.renderCenter(-150, 0, "OVERSEAS.", font32, white);
 		window.display();
@@ -375,7 +375,7 @@ void titleScreen()
 		window.clear();
 		window.render(0, 0, bgTexture);
 		//window.render(320 - 160, 240 - 100 - 50 + 4*SDL_sin(SDL_GetTicks()*(3.14/1500)), logoTexture);
-		window.render(0, 0, click2start);
+		window.render(-150, 0, click2start);
 		window.renderCenter(-150, 240 - 48 + 3 - 16*5, "LEFT CLICK TO START", font24, black);
 		window.renderCenter(-150, 240 - 48 - 16*5, "LEFT CLICK TO START", font24, white);
 		window.display();
