@@ -338,7 +338,7 @@ void titleScreen()
 		}
 
 		window.clear();
-		window.render(0, 0, bgTextureSnow;
+		window.render(0, 0, bgTextureSnow);
 		window.render(-150, 0, splashBgTexture);
 		window.renderCenter(-150, 0 + 3, "OVERSEAS.", font32, black);
 		window.renderCenter(-150, 0, "OVERSEAS.", font32, white);
