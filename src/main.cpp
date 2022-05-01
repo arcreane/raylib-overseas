@@ -5,11 +5,15 @@
 #include <SDL2/SDL_mixer.h>
 #include <iostream>
 #include <vector>
+#include <fstream>
+#include <cstdlib>
 
 /* Headers dezs différentes classes */
 #include "RenderWindow.h"
 #include "Entity.h"
-#include "Ball.h"	
+#include "Whiteball.h"	
+#include "Redball.h"	
+#include "Blueball.h"	
 #include "Tile.h"
 #include "Hole.h"
 
@@ -30,7 +34,9 @@ bool SDLinit = init();
 RenderWindow window("Overseas-Golf", 320, 480);
 
 /* Rendu des textures */
-SDL_Texture* ballTexture = window.loadTexture("resources/gfx/ball.png");
+SDL_Texture* ballTextureWhite = window.loadTexture("resources/gfx/ball.png");
+SDL_Texture* ballTextureBlue = window.loadTexture("resources/gfx/blueball.png");
+SDL_Texture* ballTextureRed = window.loadTexture("resources/gfx/redball.png");
 SDL_Texture* holeTexture = window.loadTexture("resources/gfx/hole.png");
 SDL_Texture* pointTexture = window.loadTexture("resources/gfx/point.png");
 SDL_Texture* tileDarkTexture32 = window.loadTexture("resources/gfx/tile32_dark.png");
@@ -53,7 +59,7 @@ SDL_Texture* levelTextBgTexture = window.loadTexture("resources/gfx/levelText_bg
 SDL_Texture* powerMeterTexture_FG = window.loadTexture("resources/gfx/powermeter_fg.png");
 SDL_Texture* powerMeterTexture_BG = window.loadTexture("resources/gfx/powermeter_bg.png");
 SDL_Texture* powerMeterTexture_overlay = window.loadTexture("resources/gfx/powermeter_overlay.png");
-SDL_Texture* logoTexture = window.loadTexture("resources/gfx/logo.png");
+
 SDL_Texture* click2start = window.loadTexture("resources/gfx/click2start.png");
 SDL_Texture* endscreenOverlayTexture = window.loadTexture("resources/gfx/end.png");
 SDL_Texture* splashBgTexture = window.loadTexture("resources/gfx/splashbg.png");
@@ -69,13 +75,24 @@ TTF_Font* font32 = TTF_OpenFont("resources/font/font.ttf", 32);
 TTF_Font* font48 = TTF_OpenFont("resources/font/font.ttf", 48);
 TTF_Font* font24 = TTF_OpenFont("resources/font/font.ttf", 24);
 
-Ball ball = Ball(Vector2f(0, 0), ballTexture, pointTexture, powerMeterTexture_FG, powerMeterTexture_BG, 0);
+/* 
+--- Définition de  la balle utilisée ---
+
+	Whiteball = balle classique
+	Redball = balle qui s'écrase sur les murs
+ 	Blueball = balle qui glisse plus longtemps
+*/
+
+Whiteball ball = Whiteball(Vector2f(0, 0), ballTextureWhite, pointTexture, powerMeterTexture_FG, powerMeterTexture_BG, 0);
+//Redball ball = Redball(Vector2f(0, 0), ballTextureRed, pointTexture, powerMeterTexture_FG, powerMeterTexture_BG, 0);
+//Blueball ball = Blueball(Vector2f(0, 0), ballTextureBlue, pointTexture, powerMeterTexture_FG, powerMeterTexture_BG, 0);
+
 Hole hole = Hole(Vector2f(0, 0), holeTexture);
 
 std::vector<Tile> loadTiles(int level)
 {
 	std::vector<Tile> temp = {};
-	// Ajout des obstacles pour chaque niveaux
+    // ajout d'obstacles pour chaque niveaux /GFX
 	switch(level) 
 	{
 		case 0:
@@ -121,7 +138,6 @@ std::vector<Tile> loadTiles(int level)
 			temp.push_back(Tile(Vector2f(32*1, 32*14), tileSnowmanGreyTexture32));
 			temp.push_back(Tile(Vector2f(32*7, 32*1), tileTreeTexture32));
 			temp.push_back(Tile(Vector2f(32*8, 32*3), tileTreeGreyTexture32));
-
 		break;
 	}
 	return temp;
@@ -151,6 +167,9 @@ void loadLevel(int level)
 	if (level > 4)
 	{
 		state = 2;
+		std::ofstream ofs ("scores.txt", std::ios::app);
+		ofs << __DATE__ << " - " << __TIME__ << " : " << ball.getStrokes() << " coups.\n";
+		ofs.close();
 		return;
 	}
 	
@@ -195,7 +214,7 @@ const char* getStrokeText()
 
 const char* getLevelText()
 {
-	std::string s = std::to_string(level);
+	std::string s = std::to_string(level+1);
 	s = "TROU: " + s;
 	return s.c_str();
 }
@@ -246,7 +265,7 @@ void update()
 void graphics()
 {
 	window.clear();
-	// FX différent pour le niveau final
+    // FX différent pour le niveau final
 	if (level==4)
 	{
 		window.render(0, 0, bgTextureSnow);
@@ -290,7 +309,7 @@ void graphics()
 	else
 	{
 		window.render(0, 0, endscreenOverlayTexture);
-		window.renderCenter(0, 3 -32, "YOU COMPLETED THE COURSE!", font48, black);
+		window.renderCenter(0, 3 - 32, "YOU COMPLETED THE COURSE!", font48, black);
 		window.renderCenter(0, -32, "YOU COMPLETED THE COURSE!", font48, white);
 		window.renderCenter(0, 3 + 32, getStrokeText(), font32, black);
 		window.renderCenter(0, 32, getStrokeText(), font32, white);
@@ -321,8 +340,8 @@ void titleScreen()
 		window.clear();
 		window.render(0, 0, bgTexture);
 		window.render(0, 0, splashBgTexture);
-		window.renderCenter(0, 0 + 3, "POLYMARS", font32, black);
-		window.renderCenter(0, 0, "POLYMARS", font32, white);
+		window.renderCenter(-150, 0 + 3, "OVERSEAS.", font32, black);
+		window.renderCenter(-150, 0, "OVERSEAS.", font32, white);
 		window.display();
 	}
 	else
@@ -353,13 +372,12 @@ void titleScreen()
 				break;
 			}
 		}
-		// Positionnement du texte menu d'accueil
 		window.clear();
 		window.render(0, 0, bgTexture);
-		window.render(160 - 160, 240 - 100 - 50 + 4*SDL_sin(SDL_GetTicks()*(3.14/1500)), logoTexture);
+		//window.render(320 - 160, 240 - 100 - 50 + 4*SDL_sin(SDL_GetTicks()*(3.14/1500)), logoTexture);
 		window.render(0, 0, click2start);
-		window.renderCenter(0, 240 - 48 + 3 - 16*5, "LEFT CLICK TO START", font32, black);
-		window.renderCenter(0, 240 - 48 - 16*5, "LEFT CLICK TO START", font32, white);
+		window.renderCenter(-150, 240 - 48 + 3 - 16*5, "LEFT CLICK TO START", font24, black);
+		window.renderCenter(-150, 240 - 48 - 16*5, "LEFT CLICK TO START", font24, white);
 		window.display();
 	}
 }
