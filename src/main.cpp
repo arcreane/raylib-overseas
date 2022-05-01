@@ -75,6 +75,7 @@ Hole hole = Hole(Vector2f(0, 0), holeTexture);
 std::vector<Tile> loadTiles(int level)
 {
 	std::vector<Tile> temp = {};
+	// Ajout des obstacles pour chaque niveaux
 	switch(level) 
 	{
 		case 0:
@@ -245,6 +246,7 @@ void update()
 void graphics()
 {
 	window.clear();
+	// FX différent pour le niveau final
 	if (level==4)
 	{
 		window.render(0, 0, bgTextureSnow);
@@ -319,7 +321,7 @@ void titleScreen()
 		window.clear();
 		window.render(0, 0, bgTexture);
 		window.render(0, 0, splashBgTexture);
-		window.renderCenter(0, 0 , "POLYMARS", font32, black);
+		window.renderCenter(0, 0 + 3, "POLYMARS", font32, black);
 		window.renderCenter(0, 0, "POLYMARS", font32, white);
 		window.display();
 	}
@@ -351,6 +353,7 @@ void titleScreen()
 				break;
 			}
 		}
+		// Positionnement du texte menu d'accueil
 		window.clear();
 		window.render(0, 0, bgTexture);
 		window.render(160 - 160, 240 - 100 - 50 + 4*SDL_sin(SDL_GetTicks()*(3.14/1500)), logoTexture);
